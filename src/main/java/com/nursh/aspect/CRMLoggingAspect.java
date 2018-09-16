@@ -1,6 +1,7 @@
 package com.nursh.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -36,6 +37,17 @@ public class CRMLoggingAspect {
         for(Object arg : args) {
             logger.info("\n " + arg);
         }
+    }
+
+    @AfterReturning(
+        pointcut = "forAppFlow()",
+        returning = "result"
+    )
+    public void afterReturning(JoinPoint joinPoint, Object result) {
+        String method = joinPoint.getSignature().toShortString();
+        logger.info("\n@AfterReturning method name: " + method);
+
+        logger.info("\nThe returning results: " + result);
     }
 
 }
